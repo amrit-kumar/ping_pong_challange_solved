@@ -14,6 +14,8 @@ from django.apps import apps
 
 MAX_ARRAY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 PLAYER_LIST = ['person1', 'person2', 'person3', 'person4', 'person5', 'person6', 'person7', 'person8']
+PLAYER_LIST2=[]
+PLAYER_LIST3=[]
 
 
 def get_current_model(request):
@@ -89,13 +91,16 @@ def game(player1,player2):
             my_randoms2 = random.sample(xrange(1, 11), second_model.array_length)
             qset2.defense_array = my_randoms
             guess2 = random.choice(MAX_ARRAY)
-        # if guess2 in my_randoms2:
 
         if guess in my_randoms:
             qset2.role='defencer'
             arr2=qset2.defense_array
 
+        elif guess2 in my_randoms2:
+            qset2.role='defencer'
+            arr2=qset2.defense_array
         else:
+
             count+=1
             qset.point+=1
 
@@ -104,9 +109,12 @@ def game(player1,player2):
     elif qset2.point==5:
         return second_model.name
 
-
-
 class RefereeViewSet(viewsets.ModelViewSet):
+    queryset = Referee.objects.all()
+    serializer_class = RefereeSerializer
+
+
+class FirstRoundViewSet(viewsets.ModelViewSet):
     queryset = Referee.objects.all()
     serializer_class = RefereeSerializer
 
@@ -119,6 +127,7 @@ class RefereeViewSet(viewsets.ModelViewSet):
         PLAYER_LIST.remove(second_player)
 
         t_winner=game(first_player,second_player)
+        PLAYER_LIST2.append(t_winner)
 
         return Response("First Match")
 
@@ -131,6 +140,8 @@ class RefereeViewSet(viewsets.ModelViewSet):
         PLAYER_LIST.remove(second_player)
 
         t_winner=game(first_player,second_player)
+        PLAYER_LIST2.append(t_winner)
+
 
         return Response("Second Match")
 
@@ -143,6 +154,8 @@ class RefereeViewSet(viewsets.ModelViewSet):
         PLAYER_LIST.remove(second_player)
 
         t_winner=game(first_player,second_player)
+        PLAYER_LIST2.append(t_winner)
+
 
         return Response("Third Match")
 
@@ -155,6 +168,55 @@ class RefereeViewSet(viewsets.ModelViewSet):
         PLAYER_LIST.remove(second_player)
 
         t_winner=game(first_player,second_player)
+        PLAYER_LIST2.append(t_winner)
+
 
         return Response("Fourth Match")
 
+class SecondRoundViewSet(viewsets.ModelViewSet):
+    queryset = Referee.objects.all()
+    serializer_class = RefereeSerializer
+
+    @list_route(methods=["GET"])
+    def first_match(self,request):
+        first_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(first_player)
+
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
+
+        t_winner=game(first_player,second_player)
+        PLAYER_LIST3.append(t_winner)
+
+
+        return Response("First Match")
+
+    @list_route(methods=["GET"])
+    def second_match(self,request):
+        first_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(first_player)
+
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
+
+        t_winner=game(first_player,second_player)
+        PLAYER_LIST3.append(t_winner)
+
+
+        return Response("Second Match")
+
+class ThirdRoundViewSet(viewsets.ModelViewSet):
+    queryset = Referee.objects.all()
+    serializer_class=RefereeSerializer
+
+    @list_route(methods=["GET"])
+    def last_match(self,request):
+        first_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(first_player)
+
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
+
+        t_winner=game(first_player,second_player)
+
+        return Response("Last Match")

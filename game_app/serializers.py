@@ -9,3 +9,8 @@ class RefereeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Referee
         fields = '__all__'
+
+class UsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = '__all__'

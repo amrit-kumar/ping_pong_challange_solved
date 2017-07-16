@@ -21,31 +21,92 @@ def get_current_model(request):
     ,'person6':'Person6','person7':'Person7','person8':'Person8'}
     model_name=model_dict[request]
     model = apps.get_model('game_app', model_name)
-    print(model.name,"!@#$%^&*()#$%^&*(#$%^&*($%^&*()")
+    print(type(model),"!@#$%^&*()#$%^&*(#$%^&*($%^&*()")
     return model
 
 def game(player1,player2):
     first_model = get_current_model(player1)
     second_model = get_current_model(player2)
 
-    my_randoms = random.sample(xrange(1, 11), first_model.array_length)
-    print("random list-------------", my_randoms)
-    guess=random.choice(MAX_ARRAY)
-    print("random guess---------------",guess)
-    count=0
-    while (first_model.score==5 or second_model.score==5):
-        if guess in my_randoms:
-            my_randoms2 = random.sample(xrange(1, 11), second_model.array_length)
-            guess2=random.choice(MAX_ARRAY)
-        else:
-            first_model.score+=1
+    if first_model.name=='person1':
+        qset=Person1.objects.get(id=1)
+    elif first_model.name=='person2':
+        qset=Person2.objects.get(id=1)
+    elif first_model.name=='person3':
+        qset=Person3.objects.get(id=1)
+    elif first_model.name=='person4':
+        qset=Person4.objects.get(id=1)
+    elif first_model.name=='person5':
+        qset=Person5.objects.get(id=1)
+    elif first_model.name=='person6':
+        qset=Person6.objects.get(id=1)
+    elif first_model.name=='person7':
+        qset=Person7.objects.get(id=1)
+    else :
+        qset=Person8.objects.get(id=1)
 
-    my_randoms2 = random.sample(xrange(1, 11), second_model.array_length)
-    print("22222222222222222222222", my_randoms)
+    if second_model.name == 'person1':
+        qset2 = Person1.objects.get(id=1)
+    elif second_model.name == 'person2':
+        qset2 = Person2.objects.get(id=1)
+    elif second_model.name == 'person3':
+        qset2 = Person3.objects.get(id=1)
+    elif second_model.name == 'person4':
+        qset2 = Person4.objects.get(id=1)
+    elif second_model.name == 'person5':
+        qset2 = Person5.objects.get(id=1)
+    elif second_model.name == 'person6':
+        qset2 = Person6.objects.get(id=1)
+    elif second_model.name == 'person7':
+        qset2 = Person7.objects.get(id=1)
+    elif second_model.name == 'person8':
+        qset2 = Person8.objects.get(id=1)
+
+    count = 0
+    game_count=0
+    qset.playing=True
+    qset2.playing=True
+
+    nu1=qset.game_number
+    qset.game_number=nu1+1
+
+    nu2=qset2.game_number
+    qset2.game_number=nu2+1
+
+    qset.role='defencer'
+    qset2.role='attacker'
+
+    while (qset.point!=5 or qset2.point!=5):
+        if qset.role=='defencer':
+
+            my_randoms = random.sample(xrange(1, 11), first_model.array_length)
+            qset.defense_array=my_randoms
+            guess = random.choice(MAX_ARRAY)
+
+        elif qset2.role=='defencer':
+
+
+            my_randoms2 = random.sample(xrange(1, 11), second_model.array_length)
+            qset2.defense_array = my_randoms
+            guess2 = random.choice(MAX_ARRAY)
+        # if guess2 in my_randoms2:
+
+        if guess in my_randoms:
+            qset2.role='defencer'
+            arr2=qset2.defense_array
+
+        else:
+            count+=1
+            qset.point+=1
+
+    if qset.point==5:
+        return first_model.name
+    elif qset2.point==5:
+        return second_model.name
+
 
 
 class RefereeViewSet(viewsets.ModelViewSet):
-    print("@@@@@@@@@@@@@@@@@@@")
     queryset = Referee.objects.all()
     serializer_class = RefereeSerializer
 
@@ -53,17 +114,47 @@ class RefereeViewSet(viewsets.ModelViewSet):
     def first_match(self,request):
         first_player=random.choice(PLAYER_LIST)
         PLAYER_LIST.remove(first_player)
-        # print("%%%%%%%%%%%%%%%%%%%%%",first_player)
-        # print("111111111111111111111111",PLAYER_LIST)
 
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
 
-        seacond_player=random.choice(PLAYER_LIST)
-        PLAYER_LIST.remove(seacond_player)
-        # print("%%%%%%%%%%%%%%%%%%%%%",seacond_player)
-        # print("2222222222222222222222",PLAYER_LIST)
+        t_winner=game(first_player,second_player)
 
-        t_winner=game(first_player,seacond_player)
-        print("(((((((((((((((((((((((((((((99999999999999999999999999999999999999999",t_winner)
-        qsets=Referee.objects.all()
-        serialized=RefereeSerializer(qsets,many=True)
-        return Response(serialized.data)
+        return Response("First Match")
+
+    @list_route(methods=["GET"])
+    def second_match(self,request):
+        first_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(first_player)
+
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
+
+        t_winner=game(first_player,second_player)
+
+        return Response("Second Match")
+
+    @list_route(methods=["GET"])
+    def third_match(self,request):
+        first_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(first_player)
+
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
+
+        t_winner=game(first_player,second_player)
+
+        return Response("Third Match")
+
+    @list_route(methods=["GET"])
+    def fourth_match(self,request):
+        first_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(first_player)
+
+        second_player=random.choice(PLAYER_LIST)
+        PLAYER_LIST.remove(second_player)
+
+        t_winner=game(first_player,second_player)
+
+        return Response("Fourth Match")
+

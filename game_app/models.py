@@ -11,77 +11,117 @@ class Referee(models.Model):
 
 
 
-class PersonMixin(models.Model):
-    score=models.IntegerField(default=0)
-    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
-    defense_array=models.TextField(null=True, blank=True)
-    attack_array=models.TextField(null=True, blank=True)
+# class PersonMixin(models.Model):
+#     point=models.IntegerField(default=0)
+#     role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+#     defense_array=models.TextField(null=True, blank=True)
+#     attack_array=models.TextField(null=True, blank=True)
 
 class CurrentPlayerList(models.Model):
     current_list=models.TextField(null=True, blank=True)
 
-class Person1(PersonMixin,models.Model):
+class Person1(models.Model):
     name="person1"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=8
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
+
 
     def __str__(self):
         return self.name
 
 
-class Person2(PersonMixin,models.Model):
+class Person2(models.Model):
     name="person2"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=8
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
 
 
 
-class Person3(PersonMixin,models.Model):
+
+class Person3(models.Model):
     name="person3"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=7
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
 
 
 
-class Person4(PersonMixin,models.Model):
+
+class Person4(models.Model):
     name="person4"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=7
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
 
 
 
-class Person5(PersonMixin,models.Model):
+
+class Person5(models.Model):
     name="person5"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=6
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
 
 
 
-class Person6(PersonMixin,models.Model):
+
+class Person6(models.Model):
     name="person6"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=6
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
 
 
-class Person7(PersonMixin,models.Model):
+
+class Person7(models.Model):
     name="person7"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length=5
+    point=models.IntegerField(default=0)
+    role=models.CharField(choices=role_choices,max_length=10, null=True, blank=True)
+    defense_array=models.TextField(null=True, blank=True)
+    attack_array=models.TextField(null=True, blank=True)
 
 
 
-class Person8(PersonMixin,models.Model):
+
+class Person8(models.Model):
     name="person8"
     playing=models.BooleanField(default=False)
     game_number=models.IntegerField(default=0)
     array_length = 5
+    point = models.IntegerField(default=0)
+    role = models.CharField(choices=role_choices, max_length=10, null=True, blank=True)
+    defense_array = models.TextField(null=True, blank=True)
+    attack_array = models.TextField(null=True, blank=True)
+
 
 
 
@@ -112,8 +152,8 @@ class Person8(PersonMixin,models.Model):
 #     player2_responses = models.CharField(max_length=200)
 #     start_time = models.DateTimeField()
 #     end_time = models.DateTimeField(null=True)
-#     player1_score = models.IntegerField(default=0)
-#     player2_score = models.IntegerField(default=0)
+#     player1_point = models.IntegerField(default=0)
+#     player2_point = models.IntegerField(default=0)
 #     order = models.IntegerField()
 #     round_no = models.IntegerField()
 #
